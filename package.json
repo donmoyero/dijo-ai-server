@@ -1,15 +1,22 @@
 {
-  "name": "dijo-ai-server",
-  "version": "1.0.0",
-  "description": "DIJO Gemini AI server",
+  "name": "dijo-crew-server",
+  "version": "2.0.0",
+  "description": "DIJO Crew — Live AI acting crew for social media content creators",
   "main": "api/generate.js",
   "scripts": {
-    "start": "node api/generate.js"
+    "start": "node api/generate.js",
+    "dev": "nodemon api/generate.js"
   },
   "dependencies": {
     "express": "^4.19.2",
     "cors": "^2.8.5",
     "@google/generative-ai": "^0.15.0",
     "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
