@@ -1,11 +1,11 @@
 export default async function handler(req, res) {
 
-  // Allow requests from any site (GitHub Pages)
+  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Handle preflight requests
+  // Preflight request
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -14,9 +14,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { brief } = req.body;
-
   try {
+
+    const { brief } = req.body;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
@@ -34,14 +34,14 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    const text = data.choices?.[0]?.message?.content || "No response";
+    const text = data?.choices?.[0]?.message?.content || "No response";
 
-    res.status(200).json({ text });
+    return res.status(200).json({ text });
 
   } catch (err) {
 
-    res.status(500).json({ error: "AI generation failed" });
+    console.error(err);
+    return res.status(500).json({ error: "AI generation failed" });
 
   }
-
 }
