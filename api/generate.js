@@ -1,11 +1,11 @@
 export default async function handler(req, res) {
 
-  // CORS headers
+  // Allow GitHub Pages to call this API
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Preflight request
+  // Handle browser preflight request
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -41,7 +41,10 @@ export default async function handler(req, res) {
   } catch (err) {
 
     console.error(err);
-    return res.status(500).json({ error: "AI generation failed" });
+
+    return res.status(500).json({
+      error: "AI generation failed"
+    });
 
   }
 }
