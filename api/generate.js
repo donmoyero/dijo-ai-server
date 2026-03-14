@@ -1,19 +1,17 @@
 export default async function handler(req, res) {
 
-  // Enable CORS
+  // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Handle preflight request
+  // Handle preflight requests
   if (req.method === "OPTIONS") {
-    res.status(200).end();
-    return;
+    return res.status(200).json({});
   }
 
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
@@ -38,13 +36,13 @@ export default async function handler(req, res) {
 
     const text = data?.choices?.[0]?.message?.content || "No response";
 
-    res.status(200).json({ text });
+    return res.status(200).json({ text });
 
   } catch (err) {
 
     console.error(err);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: "AI generation failed"
     });
 
